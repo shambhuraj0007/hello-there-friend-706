@@ -10,6 +10,7 @@ import { Leaderboard } from "./pages/Leaderboard";
 import { PayWaterBills } from "./pages/PayWaterBills";
 import { PayHomeBills } from "./pages/PayHomeBills";
 
+
 const queryClient = new QueryClient();
 
 const App = () => (

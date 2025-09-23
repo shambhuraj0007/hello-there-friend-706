@@ -9,6 +9,7 @@ import { MobileHeader } from './MobileHeader';
 import { Camera, MapPin, FileText, CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useCapacitor } from '@/hooks/useCapacitor';
 import { toast } from '@/components/ui/use-toast';
+import LocationPicker from '@/contexts/LocationPicker';
 import { useToast } from '@/components/ui/use-toast';
 
 interface ReportIssueWizardProps {
@@ -133,46 +134,53 @@ const handleSubmit = async () => {
           </div>
         );
 
-      case 2:
-        return (
-          <div className="p-6">
-            <div className="text-center mb-6">
-              <div className="w-24 h-24 mx-auto mb-6 bg-accent/10 rounded-full flex items-center justify-center">
-                <MapPin className="h-12 w-12 text-accent" />
-              </div>
-              <h2 className="text-2xl font-bold mb-4">Set Location</h2>
-              <p className="text-muted-foreground">
-                Confirm the location where this issue exists
-              </p>
-            </div>
 
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="location">Location Address</Label>
-                <Input
-                  id="location"
-                  placeholder="Enter address or landmark"
-                  value={reportData.location}
-                  onChange={(e) => setReportData({ ...reportData, location: e.target.value })}
-                />
-              </div>
+case 2:
+  return (
+    <div className="p-6">
+      <div className="text-center mb-6">
+        <div className="w-24 h-24 mx-auto mb-6 bg-accent/10 rounded-full flex items-center justify-center">
+          <MapPin className="h-12 w-12 text-accent" />
+        </div>
+        <h2 className="text-2xl font-bold mb-4">Set Location</h2>
+        <p className="text-muted-foreground">
+          Confirm the location where this issue exists
+        </p>
+      </div>
 
-              <Button onClick={handleLocationCapture} className="w-full" variant="outline">
-                <MapPin className="mr-2 h-4 w-4" />
-                Use Current Location
-              </Button>
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="location">Location Address</Label>
+          <Input
+            id="location"
+            placeholder="Enter address or landmark"
+            value={reportData.location}
+            onChange={(e) =>
+              setReportData({ ...reportData, location: e.target.value })
+            }
+          />
+        </div>
 
-              <Button 
-                onClick={nextStep} 
-                className="w-full" 
-                disabled={!reportData.location}
-              >
-                Continue
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        );
+        <Button onClick={handleLocationCapture} className="w-full" variant="outline">
+          <MapPin className="mr-2 h-4 w-4" />
+          Use Current Location
+        </Button>
+
+        {/* 👇 render the map here */}
+        <LocationPicker reportData={reportData} setReportData={setReportData} />
+
+        <Button
+          onClick={nextStep}
+          className="w-full"
+          disabled={!reportData.location}
+        >
+          Continue
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  );
+
 
       case 3:
         return (
