@@ -18,7 +18,7 @@ export const useLanguage = () => {
   return context;
 };
 
-// Translation dictionary
+// Enhanced translation dictionary with ReportIssueWizard translations
 const translations = {
   en: {
     // Sidebar
@@ -143,8 +143,83 @@ const translations = {
     maxPhotosReached: 'Maximum 5 photos allowed',
     photoHelpText: 'Take clear photos showing the issue details',
     
+    // Report Issue Wizard - NEW TRANSLATIONS
+    step: 'Step',
+    of: 'of',
+    progress: 'Progress',
+    
+    // Step 1 - Document Issue
+    documentIssue: 'Document the Issue',
+    captureEvidence: 'Capture Evidence',
+    captureImageDescription: 'Take a clear photo to help authorities understand and resolve the civic issue',
+    photoGuidelines: 'Photo Guidelines',
+    ensureGoodLighting: '• Ensure good lighting and clear visibility',
+    includeSurrounding: '• Include surrounding context when possible',
+    avoidBlurryShots: '• Avoid blurry or distant shots',
+    capturePhoto: 'Capture Photo',
+    retakePhoto: 'Retake Photo',
+    useThisPhoto: 'Use This Photo',
+    photoSuccessful: 'Photo captured successfully',
+    
+    // Step 2 - Location
+    pinpointLocation: 'Pinpoint Location',
+    setLocation: 'Set Location',
+    locationDescription: 'Help us locate the exact position of the civic issue for faster resolution',
+    locationAddress: 'Location Address',
+    enterLocationPlaceholder: 'Enter address, landmark, or area name',
+    useCurrentGPS: 'Use Current GPS Location',
+    locationSet: 'Location Set',
+    continueToDetails: 'Continue to Details',
+    
+    // Step 3 - Issue Details
+    describeIssue: 'Describe the Issue',
+    issueDetails: 'Issue Details',
+    detailsDescription: 'Provide detailed information to help authorities understand the problem',
+    issueTitle: 'Issue Title',
+    issueTitleRequired: 'Issue Title *',
+    briefTitle: 'Brief, descriptive title',
+    issueCategory: 'Issue Category',
+    issueCategoryRequired: 'Issue Category *',
+    detailedDescription: 'Detailed Description',
+    detailedDescriptionRequired: 'Detailed Description *',
+    descriptionPlaceholder: 'Describe the issue in detail, including when you first noticed it, severity, and any safety concerns...',
+    charactersCount: 'characters',
+    reviewReport: 'Review Report',
+    
+    // Step 4 - Review & Submit
+    finalReview: 'Final Review',
+    reviewAndSubmit: 'Review & Submit',
+    reviewDescription: 'Please verify all information before submitting your civic issue report',
+    photoEvidence: 'Photo Evidence',
+    location: 'Location',
+    whatHappensNext: 'What happens next?',
+    reviewWithin24Hours: '• Your report will be reviewed within 24-48 hours',
+    authoritiesNotified: '• Relevant authorities will be notified',
+    receiveUpdates: "• You'll receive updates on the resolution status",
+    submitCivicReport: 'Submit Civic Issue Report',
+    
+    // Categories
+    roadsInfrastructure: 'Roads & Infrastructure',
+    streetLighting: 'Street Lighting',
+    sanitationWaste: 'Sanitation & Waste',
+    waterSupply: 'Water Supply',
+    trafficTransportation: 'Traffic & Transportation',
+    publicSafety: 'Public Safety',
+    parksRecreation: 'Parks & Recreation',
+    other: 'Other',
+    
+    // Success Messages
+    reportSubmitted: '✅ Report Submitted Successfully!',
+    reportSubmittedDescription: 'Your civic issue has been logged and will be reviewed by authorities.',
+    submissionFailed: '❌ Submission Failed',
+    
     // Common
     error: 'Error',
+    continue: 'Continue',
+    back: 'Back',
+    next: 'Next',
+    submit: 'Submit',
+    cancel: 'Cancel',
   },
   hi: {
     // Sidebar
@@ -269,8 +344,83 @@ const translations = {
     maxPhotosReached: 'अधिकतम 5 फोटो की अनुमति है',
     photoHelpText: 'समस्या का विवरण दिखाने वाली स्पष्ट तस्वीरें लें',
     
+    // Report Issue Wizard - NEW TRANSLATIONS
+    step: 'चरण',
+    of: 'का',
+    progress: 'प्रगति',
+    
+    // Step 1 - Document Issue
+    documentIssue: 'समस्या का दस्तावेजीकरण',
+    captureEvidence: 'सबूत कैप्चर करें',
+    captureImageDescription: 'अधिकारियों को समझने और समस्या हल करने में मदद के लिए एक स्पष्ट तस्वीर लें',
+    photoGuidelines: 'फोटो दिशानिर्देश',
+    ensureGoodLighting: '• अच्छी रोशनी और स्पष्ट दृश्यता सुनिश्चित करें',
+    includeSurrounding: '• जब संभव हो तो आस-पास के संदर्भ को शामिल करें',
+    avoidBlurryShots: '• धुंधली या दूर की तस्वीरों से बचें',
+    capturePhoto: 'फोटो कैप्चर करें',
+    retakePhoto: 'फोटो दोबारा लें',
+    useThisPhoto: 'इस फोटो का उपयोग करें',
+    photoSuccessful: 'फोटो सफलतापूर्वक कैप्चर हो गई',
+    
+    // Step 2 - Location
+    pinpointLocation: 'स्थान निर्धारित करें',
+    setLocation: 'स्थान सेट करें',
+    locationDescription: 'तेज़ समाधान के लिए नागरिक समस्या की सटीक स्थिति का पता लगाने में हमारी सहायता करें',
+    locationAddress: 'स्थान का पता',
+    enterLocationPlaceholder: 'पता, लैंडमार्क, या क्षेत्र का नाम दर्ज करें',
+    useCurrentGPS: 'वर्तमान GPS स्थान का उपयोग करें',
+    locationSet: 'स्थान सेट हो गया',
+    continueToDetails: 'विवरण पर जाएं',
+    
+    // Step 3 - Issue Details
+    describeIssue: 'समस्या का वर्णन करें',
+    issueDetails: 'समस्या विवरण',
+    detailsDescription: 'अधिकारियों को समस्या समझने में मदद के लिए विस्तृत जानकारी प्रदान करें',
+    issueTitle: 'समस्या शीर्षक',
+    issueTitleRequired: 'समस्या शीर्षक *',
+    briefTitle: 'संक्षिप्त, वर्णनात्मक शीर्षक',
+    issueCategory: 'समस्या श्रेणी',
+    issueCategoryRequired: 'समस्या श्रेणी *',
+    detailedDescription: 'विस्तृत विवरण',
+    detailedDescriptionRequired: 'विस्तृत विवरण *',
+    descriptionPlaceholder: 'समस्या का विस्तार से वर्णन करें, जिसमें आपने इसे पहली बार कब देखा, गंभीरता और कोई सुरक्षा चिंताएं शामिल हैं...',
+    charactersCount: 'अक्षर',
+    reviewReport: 'रिपोर्ट की समीक्षा करें',
+    
+    // Step 4 - Review & Submit
+    finalReview: 'अंतिम समीक्षा',
+    reviewAndSubmit: 'समीक्षा और जमा करें',
+    reviewDescription: 'अपनी नागरिक समस्या रिपोर्ट जमा करने से पहले कृपया सभी जानकारी की पुष्टि करें',
+    photoEvidence: 'फोटो साक्ष्य',
+    location: 'स्थान',
+    whatHappensNext: 'आगे क्या होगा?',
+    reviewWithin24Hours: '• आपकी रिपोर्ट की 24-48 घंटों के भीतर समीक्षा की जाएगी',
+    authoritiesNotified: '• संबंधित अधिकारियों को सूचित किया जाएगा',
+    receiveUpdates: '• आपको समाधान स्थिति पर अपडेट प्राप्त होंगे',
+    submitCivicReport: 'नागरिक समस्या रिपोर्ट जमा करें',
+    
+    // Categories
+    roadsInfrastructure: 'सड़कें और बुनियादी ढांचा',
+    streetLighting: 'स्ट्रीट लाइटिंग',
+    sanitationWaste: 'स्वच्छता और कचरा',
+    waterSupply: 'पानी की आपूर्ति',
+    trafficTransportation: 'यातायात और परिवहन',
+    publicSafety: 'सार्वजनिक सुरक्षा',
+    parksRecreation: 'पार्क और मनोरंजन',
+    other: 'अन्य',
+    
+    // Success Messages
+    reportSubmitted: '✅ रिपोर्ट सफलतापूर्वक जमा हुई!',
+    reportSubmittedDescription: 'आपकी नागरिक समस्या दर्ज कर दी गई है और अधिकारियों द्वारा इसकी समीक्षा की जाएगी।',
+    submissionFailed: '❌ जमा करना असफल',
+    
     // Common
     error: 'त्रुटि',
+    continue: 'जारी रखें',
+    back: 'वापस',
+    next: 'अगला',
+    submit: 'जमा करें',
+    cancel: 'रद्द करें',
   },
   mr: {
     // Sidebar
@@ -395,8 +545,83 @@ const translations = {
     maxPhotosReached: 'जास्तीत जास्त 5 फोटोंची परवानगी आहे',
     photoHelpText: 'समस्येचा तपशील दाखवणारे स्पष्ट फोटो काढा',
     
+    // Report Issue Wizard - NEW TRANSLATIONS
+    step: 'पायरी',
+    of: 'चा',
+    progress: 'प्रगती',
+    
+    // Step 1 - Document Issue
+    documentIssue: 'समस्येचे दस्तावेजीकरण',
+    captureEvidence: 'पुरावे कॅप्चर करा',
+    captureImageDescription: 'अधिकार्‍यांना समजून घेण्यास आणि नागरी समस्येचे निराकरण करण्यास मदत करण्यासाठी स्पष्ट फोटो काढा',
+    photoGuidelines: 'फोटो मार्गदर्शक तत्त्वे',
+    ensureGoodLighting: '• चांगला प्रकाश आणि स्पष्ट दृश्यमानता सुनिश्चित करा',
+    includeSurrounding: '• शक्य असल्यास आसपासचा संदर्भ समाविष्ट करा',
+    avoidBlurryShots: '• अस्पष्ट किंवा दूरच्या शॉट्स टाळा',
+    capturePhoto: 'फोटो कॅप्चर करा',
+    retakePhoto: 'फोटो पुन्हा काढा',
+    useThisPhoto: 'हा फोटो वापरा',
+    photoSuccessful: 'फोटो यशस्वीरित्या कॅप्चर झाला',
+    
+    // Step 2 - Location
+    pinpointLocation: 'स्थान निर्धारित करा',
+    setLocation: 'स्थान सेट करा',
+    locationDescription: 'जलद निराकरणासाठी नागरी समस्येची अचूक स्थिती शोधण्यात आम्हाला मदत करा',
+    locationAddress: 'स्थानाचा पत्ता',
+    enterLocationPlaceholder: 'पत्ता, खूणचिन्ह किंवा क्षेत्राचे नाव प्रविष्ट करा',
+    useCurrentGPS: 'वर्तमान GPS स्थान वापरा',
+    locationSet: 'स्थान सेट झाले',
+    continueToDetails: 'तपशीलांकडे सुरू ठेवा',
+    
+    // Step 3 - Issue Details
+    describeIssue: 'समस्येचे वर्णन करा',
+    issueDetails: 'समस्या तपशील',
+    detailsDescription: 'अधिकार्‍यांना समस्या समजून घेण्यास मदत करण्यासाठी तपशीलवार माहिती द्या',
+    issueTitle: 'समस्या शीर्षक',
+    issueTitleRequired: 'समस्या शीर्षक *',
+    briefTitle: 'संक्षिप्त, वर्णनात्मक शीर्षक',
+    issueCategory: 'समस्या प्रकार',
+    issueCategoryRequired: 'समस्या प्रकार *',
+    detailedDescription: 'तपशीलवार वर्णन',
+    detailedDescriptionRequired: 'तपशीलवार वर्णन *',
+    descriptionPlaceholder: 'समस्येचे तपशीलवार वर्णन करा, तुम्ही ती पहिल्यांदा कधी पाहिली, गंभीरता आणि कोणत्याही सुरक्षेच्या चिंता यासह...',
+    charactersCount: 'वर्ण',
+    reviewReport: 'अहवालाचे पुनरावलोकन करा',
+    
+    // Step 4 - Review & Submit
+    finalReview: 'अंतिम पुनरावलोकन',
+    reviewAndSubmit: 'पुनरावलोकन आणि सबमिट करा',
+    reviewDescription: 'तुमचा नागरी समस्या अहवाल सबमिट करण्यापूर्वी कृपया सर्व माहितीची पडताळणी करा',
+    photoEvidence: 'फोटो पुरावा',
+    location: 'स्थान',
+    whatHappensNext: 'पुढे काय होते?',
+    reviewWithin24Hours: '• तुमच्या अहवालाचे 24-48 तासांत पुनरावलोकन केले जाईल',
+    authoritiesNotified: '• संबंधित अधिकार्‍यांना सूचित केले जाईल',
+    receiveUpdates: '• तुम्हाला निराकरणाच्या स्थितीवर अपडेट्स मिळतील',
+    submitCivicReport: 'नागरी समस्या अहवाल सबमिट करा',
+    
+    // Categories
+    roadsInfrastructure: 'रस्ते आणि पायाभूत सुविधा',
+    streetLighting: 'रस्त्यावरील दिवे',
+    sanitationWaste: 'स्वच्छता आणि कचरा',
+    waterSupply: 'पाणी पुरवठा',
+    trafficTransportation: 'रहदारी आणि वाहतूक',
+    publicSafety: 'सार्वजनिक सुरक्षा',
+    parksRecreation: 'उद्यान आणि मनोरंजन',
+    other: 'इतर',
+    
+    // Success Messages
+    reportSubmitted: '✅ अहवाल यशस्वीरित्या सबमिट झाला!',
+    reportSubmittedDescription: 'तुमची नागरी समस्या नोंद झाली आहे आणि अधिकार्‍यांद्वारे त्याचे पुनरावलोकन केले जाईल.',
+    submissionFailed: '❌ सबमिट करणे अयशस्वी',
+    
     // Common
     error: 'त्रुटी',
+    continue: 'सुरू ठेवा',
+    back: 'मागे',
+    next: 'पुढे',
+    submit: 'सबमिट करा',
+    cancel: 'रद्द करा',
   },
 };
 
