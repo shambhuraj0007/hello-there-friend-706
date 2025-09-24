@@ -10,7 +10,6 @@ import { Camera, MapPin, FileText, CheckCircle, ArrowLeft, ArrowRight } from 'lu
 import { useCapacitor } from '@/hooks/useCapacitor';
 import { toast } from '@/components/ui/use-toast';
 import LocationPicker from '@/contexts/LocationPicker';
-import { useToast } from '@/components/ui/use-toast';
 
 interface ReportIssueWizardProps {
   onComplete: () => void;

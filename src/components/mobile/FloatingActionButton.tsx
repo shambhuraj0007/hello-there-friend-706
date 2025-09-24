@@ -1,16 +1,18 @@
 import { Plus, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom'; // Add this import
 
-interface FloatingActionButtonProps {
-  onClick: () => void;
-  className?: string;
-}
+export const FloatingActionButton = ({ className }: { className?: string }) => {
+  const navigate = useNavigate();
 
-export const FloatingActionButton = ({ onClick, className }: FloatingActionButtonProps) => {
+  const handleClick = () => {
+    navigate('/report-issue');
+  };
+
   return (
     <Button
-      onClick={onClick}
+      onClick={handleClick}
       size="lg"
       className={cn(
         "fixed bottom-20 right-4 w-14 h-14 rounded-full shadow-lg",
