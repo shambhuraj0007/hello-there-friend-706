@@ -442,7 +442,6 @@ export const ReportIssueWizard = ({ onComplete, onCancel }: ReportIssueWizardPro
       {/* Enhanced Header */}
       <MobileHeader 
         title={stepTitles[currentStep - 1]}
-        subtitle={`${t('step')} ${currentStep} ${t('of')} ${totalSteps}`}
         showBack={true}
         onBack={currentStep === 1 ? onCancel : prevStep}
       />
