@@ -16,10 +16,11 @@ export const useCapacitor = () => {
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
-        resultType: CameraResultType.Uri,
+        resultType: CameraResultType.Base64, // <-- Change this line
         source: CameraSource.Camera,
       });
-      return image.webPath;
+      // Return as data URL
+      return `data:image/${image.format};base64,${image.base64String}`;
     } catch (error) {
       console.error('Error taking picture:', error);
       return null;

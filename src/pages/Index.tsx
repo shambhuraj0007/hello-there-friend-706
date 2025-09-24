@@ -21,6 +21,8 @@ import { useCapacitor } from '@/hooks/useCapacitor';
 import { toast } from '@/components/ui/use-toast';
 import { useToast } from '@/components/ui/use-toast';
 import { useNavigate } from "react-router-dom";
+import { fetchRecentReports } from '@/services/reports';
+import { authService } from '@/services/authServices';
 
 // Mock data for demonstration
 const mockIssues: Issue[] = [
@@ -60,14 +62,18 @@ const mockIssues: Issue[] = [
 const Index = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
   const [activeTab, setActiveTab] = useState('home');
   const [showMapView, setShowMapView] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilters, setActiveFilters] = useState<FilterOptions>({ categories: [], statuses: [] });
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [showReportWizard, setShowReportWizard] = useState(false);
+  const [issues, setIssues] = useState<Issue[]>([]);
+  const [loadingIssues, setLoadingIssues] = useState(false);
+  const [issuesError, setIssuesError] = useState<string | null>(null);
   const { isNative, takePicture, getCurrentPosition, hapticFeedback } = useCapacitor();
+  const [currentUser, setCurrentUser] = useState<any>(authService.getCurrentUser());
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -80,21 +86,57 @@ const Index = () => {
     if (!hasSeenOnboarding) {
       setShowOnboarding(true);
     } else {
-      setIsAuthenticated(true); // Mock authentication for demo
+      // Check persisted auth
+      const authed = authService.isAuthenticated();
+      setIsAuthenticated(authed);
+      if (authed) {
+        setCurrentUser(authService.getCurrentUser());
+      }
     }
     }, 2000);
 
     return () => clearTimeout(splashTimer);
   }, []);
 
+  // Fetch recent issues from backend once app is ready
+  useEffect(() => {
+    const canLoad = !showSplash && !showOnboarding && isAuthenticated;
+    if (!canLoad) return;
+
+    const loadRecent = async () => {
+      try {
+        setLoadingIssues(true);
+        setIssuesError(null);
+        const data = await fetchRecentReports(10);
+        setIssues(data);
+      } catch (err: any) {
+        console.error('Failed to load recent reports', err);
+        setIssuesError(err?.message || 'Failed to load recent reports');
+        toast({
+          title: 'Failed to load recent reports',
+          description: err?.message || 'Please try again later',
+          variant: 'destructive',
+        });
+      } finally {
+        setLoadingIssues(false);
+      }
+    };
+
+    loadRecent();
+  }, [showSplash, showOnboarding, isAuthenticated]);
+
   const handleOnboardingComplete = () => {
     localStorage.setItem('hasSeenOnboarding', 'true');
     setShowOnboarding(false);
-    setIsAuthenticated(true); // Mock authentication
+    // After onboarding, show auth screen by keeping isAuthenticated false
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setIsAuthenticated(true);
+    try {
+      const user = await authService.fetchCurrentUser().catch(() => authService.getCurrentUser());
+      setCurrentUser(user);
+    } catch {}
   };
 
   const handleReportIssue = async () => {
@@ -127,7 +169,7 @@ const Index = () => {
   };
 
   // Filter issues based on search and filters
-  const filteredIssues = mockIssues.filter(issue => {
+  const filteredIssues = issues.filter(issue => {
     const matchesSearch = searchQuery === '' || 
       issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       issue.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -143,10 +185,15 @@ const Index = () => {
   });
 
   const handleRefresh = async () => {
-    // Simulate API call to refresh data
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // In real app, this would fetch fresh data from the API
-    console.log('Refreshing data...');
+    try {
+      setLoadingIssues(true);
+      const data = await fetchRecentReports(10);
+      setIssues(data);
+    } catch (err) {
+      console.error('Refresh failed', err);
+    } finally {
+      setLoadingIssues(false);
+    }
   };
 
   if (showSplash) {
@@ -224,7 +271,17 @@ const Index = () => {
             />
           ) : (
             <div className="space-y-3">
-              {filteredIssues.length === 0 ? (
+              {loadingIssues && (
+                <div className="text-center py-6 text-muted-foreground">
+                  <p>Loading recent reports...</p>
+                </div>
+              )}
+              {!loadingIssues && issuesError && (
+                <div className="text-center py-6 text-destructive">
+                  <p>{issuesError}</p>
+                </div>
+              )}
+              {!loadingIssues && !issuesError && filteredIssues.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <p>{t('noIssuesFound')}</p>
                 </div>
@@ -283,6 +340,49 @@ const Index = () => {
     <div className="pb-20">
       <MobileHeader title={t('profile')} />
       <div className="px-4 py-6 space-y-6">
+        {/* User details */}
+        {currentUser ? (
+          <div className="bg-card p-4 rounded-xl border">
+            <div className="text-lg font-semibold mb-1">{currentUser.name || currentUser.email || currentUser.phone}</div>
+            <div className="text-sm text-muted-foreground">
+              {currentUser.email && <div>Email: {currentUser.email}</div>}
+              {currentUser.phone && <div>Phone: {currentUser.phone}</div>}
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-xl font-bold">{currentUser.reportsCount ?? 0}</div>
+                <div className="text-xs text-muted-foreground">Reports</div>
+              </div>
+              <div>
+                <div className="text-xl font-bold">{currentUser.resolvedReportsCount ?? 0}</div>
+                <div className="text-xs text-muted-foreground">Resolved</div>
+              </div>
+              <div>
+                <div className="text-xl font-bold">{currentUser.reputation ?? 0}</div>
+                <div className="text-xs text-muted-foreground">Reputation</div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center text-muted-foreground">Not signed in</div>
+        )}
+
+        {currentUser && (
+          <div>
+            <Button
+              className="w-full"
+              variant="destructive"
+              onClick={async () => {
+                await authService.logout();
+                setIsAuthenticated(false);
+                setCurrentUser(null);
+              }}
+            >
+              Logout
+            </Button>
+          </div>
+        )}
+
         {/* Credits Wallet */}
         <div className="bg-gradient-to-r from-primary to-accent p-6 rounded-xl text-white">
           <h3 className="text-lg font-semibold mb-2">{t('creditsWallet')}</h3>

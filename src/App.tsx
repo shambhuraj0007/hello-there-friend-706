@@ -10,6 +10,7 @@ import { Leaderboard } from "./pages/Leaderboard";
 import { PayWaterBills } from "./pages/PayWaterBills";
 import { PayHomeBills } from "./pages/PayHomeBills";
 import {ReportIssueWizard} from './components/mobile/ReportIssueWizard';
+import VerifyEmail from './pages/VerifyEmail';
 
 const ReportIssueWizardWrapper = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/pay-water-bills" element={<PayWaterBills />} />
             <Route path="/pay-home-bills" element={<PayHomeBills />} />
             <Route path="/report-issue" element={<ReportIssueWizardWrapper />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

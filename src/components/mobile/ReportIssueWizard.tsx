@@ -12,6 +12,7 @@ import { useCapacitor } from '@/hooks/useCapacitor';
 import { toast } from '@/components/ui/use-toast';
 import LocationPicker from '@/contexts/LocationPicker';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { reportService } from '@/services/reportService';
 
 interface ReportIssueWizardProps {
   onComplete: () => void;
@@ -19,7 +20,7 @@ interface ReportIssueWizardProps {
 }
 
 export const ReportIssueWizard = ({ onComplete, onCancel }: ReportIssueWizardProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage(); // Get both t and language
   const [currentStep, setCurrentStep] = useState(1);
   const [reportData, setReportData] = useState({
     image: '',
@@ -88,27 +89,57 @@ export const ReportIssueWizard = ({ onComplete, onCancel }: ReportIssueWizardPro
     }
   };
 
+  // Corrected handleSubmit function
   const handleSubmit = async () => {
     await hapticFeedback();
     try {
-      console.log('Submitting report:', reportData);
+      const reportPayload = {
+        title: reportData.title,
+        description: reportData.description,
+        category: reportData.category, // This will be in the selected language
+        location: {
+          address: reportData.location,
+          coordinates: {
+            lat: reportData.coordinates.lat,
+            lng: reportData.coordinates.lng
+          }
+        },
+        image: reportData.image,
+        reportedBy: 'Anonymous',
+        language: language // Use the language from the existing useLanguage hook
+      };
 
-      toast({
-        title: t('reportSubmitted'),
-        description: t('reportSubmittedDescription'),
-        duration: 5000,
+      console.log('Submitting report with payload:', {
+        ...reportPayload,
+        image: reportPayload.image ? 'base64_data_present' : 'no_image'
       });
 
-      setTimeout(() => onComplete(), 2000);
+      const response = await reportService.createReport(reportPayload);
+
+      console.log('Server response:', response);
+
+      if (response.success) {
+        toast({
+          title: t('reportSubmitted'),
+          description: `${t('reportSubmittedDescription')} (ID: ${response.reportId})`,
+          duration: 5000,
+        });
+
+        setTimeout(() => onComplete(), 2000);
+      } else {
+        throw new Error(response.message || 'Failed to submit report');
+      }
     } catch (error) {
+      console.error('Submission error:', error);
       toast({
         title: t('submissionFailed'),
-        description: t('tryAgainLater'),
+        description: error.message || t('tryAgainLater'),
         variant: 'destructive',
       });
     }
   };
 
+  // Rest of your render methods remain the same...
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -442,6 +473,7 @@ export const ReportIssueWizard = ({ onComplete, onCancel }: ReportIssueWizardPro
       {/* Enhanced Header */}
       <MobileHeader 
         title={stepTitles[currentStep - 1]}
+     
         showBack={true}
         onBack={currentStep === 1 ? onCancel : prevStep}
       />
