@@ -41,7 +41,7 @@ export const MobileHeader = ({
           )}
           {showMenu && (
             <Button variant="ghost" size="sm" onClick={onMenu}>
-              <Menu className="h-5 w-5" />
+             
             </Button>
           )}
         </div>

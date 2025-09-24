@@ -36,7 +36,7 @@ const translations = {
     profile: 'Profile',
     
     // Home screen
-    appTitle: 'CivicConnect',
+    appTitle: 'SAMADHAN',
     makeVoiceHeard: 'Make Your Voice Heard',
     reportDescription: 'Report civic issues and earn rewards for community improvement',
     reported: 'Reported',
@@ -162,7 +162,7 @@ const translations = {
     profile: 'प्रोफाइल',
     
     // Home screen
-    appTitle: 'सिविक कनेक्ट',
+    appTitle: 'समाधान',
     makeVoiceHeard: 'अपनी आवाज़ उठाएं',
     reportDescription: 'नागरिक समस्याओं की रिपोर्ट करें और सामुदायिक सुधार के लिए पुरस्कार कमाएं',
     reported: 'रिपोर्ट किए गए',
@@ -288,7 +288,7 @@ const translations = {
     profile: 'प्रोफाइल',
     
     // Home screen
-    appTitle: 'सिविक कनेक्ट',
+    appTitle: 'समाधान',
     makeVoiceHeard: 'तुमचा आवाज उंचावा',
     reportDescription: 'नागरी समस्यांचा अहवाल द्या आणि समुदायिक सुधारणेसाठी बक्षिसे मिळवा',
     reported: 'अहवाल दिलेले',
