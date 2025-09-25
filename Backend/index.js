@@ -18,13 +18,38 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
-    const allowed = [
-      process.env.FRONTEND_URL || 'http://localhost:8080',
+    // Debug origin - helpful while diagnosing CORS issues
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('CORS check for origin:', origin);
+    }
+
+    // Allow server-to-server, curl, Postman, or same-origin (no Origin header)
+    if (!origin) return callback(null, true);
+
+    // Build allowed origins from env (supports comma-separated list)
+    const fromEnv = [
+      process.env.FRONTEND_URL,
+      ...(process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',').map(s => s.trim()) : [])
+    ].filter(Boolean);
+
+    const defaults = [
       'http://localhost:8080',
-      'http://localhost:5173'
+      'http://localhost:5173',
+      'http://127.0.0.1:8080',
+      'http://127.0.0.1:5173'
     ];
-    if (!origin || allowed.includes(origin)) return callback(null, true);
-    return callback(new Error('Not allowed by CORS')); 
+
+    const allowed = new Set([...fromEnv, ...defaults]);
+
+    // In development, allow any localhost/127.0.0.1 with any port
+    const isDev = (process.env.NODE_ENV || 'development') !== 'production';
+    const localhostRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+
+    if (allowed.has(origin) || (isDev && localhostRegex.test(origin))) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
