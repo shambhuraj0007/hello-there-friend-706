@@ -38,11 +38,12 @@ app.use(cors({
       'http://localhost:5173',
       'http://127.0.0.1:8080',
       'http://127.0.0.1:5173',
-      // Mobile app origins
-      'http://localhost',          // Android Capacitor
-      'capacitor://localhost',     // iOS Capacitor
-      'ionic://localhost',         // Ionic apps
-      'http://localhost:3000'     // React dev server
+      // CRITICAL: Add these mobile app origins
+      'https://localhost',          // Capacitor Android/iOS
+      'http://localhost',           // Alternative Capacitor format
+      'capacitor://localhost',      // iOS Capacitor
+      'ionic://localhost',          // Ionic apps
+      'http://localhost:3000'       // React dev server
     ];
 
     const allowed = new Set([...fromEnv, ...defaults]);
@@ -60,12 +61,14 @@ app.use(cors({
       return callback(null, true);
     }
 
+    console.log('CORS blocked origin:', origin);
     return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
 
 
 app.use(express.json({ limit: '50mb' }));
