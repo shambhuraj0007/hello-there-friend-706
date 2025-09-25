@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+  ? `${import.meta.env.VITE_API_BASE_URL}/auth`
+  : 'http://localhost:5000/api/auth';  // ← Use absolute URL for fallback
 
 export const reportService = {
   async createReport(reportData) {

@@ -1,6 +1,6 @@
 const API_BASE_URL = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE_URL)
   ? `${import.meta.env.VITE_API_BASE_URL}/auth`
-  : 'http://localhost:5000/api/auth';
+  : '/api/auth';
 
 export const authService = {
   // Register user
@@ -162,9 +162,10 @@ export const authService = {
   async fetchCurrentUser() {
     const token = localStorage.getItem('accessToken');
     if (!token) throw new Error('Not authenticated');
-    const res = await fetch(`${API_BASE_URL}/me`.replace('/auth/auth','/auth'), {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const res = await fetch(`${API_BASE_URL}/me`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
+
     const data = await res.json();
     if (!res.ok || !data?.success) throw new Error(data?.message || 'Failed to fetch current user');
     if (data?.data?.user) {
