@@ -24,6 +24,7 @@ app.use(cors({
     }
 
     // Allow server-to-server, curl, Postman, or same-origin (no Origin header)
+    // This also covers mobile apps which often don't send Origin headers
     if (!origin) return callback(null, true);
 
     // Build allowed origins from env (supports comma-separated list)
@@ -36,7 +37,12 @@ app.use(cors({
       'http://localhost:8080',
       'http://localhost:5173',
       'http://127.0.0.1:8080',
-      'http://127.0.0.1:5173'
+      'http://127.0.0.1:5173',
+      // Mobile app origins
+      'http://localhost',          // Android Capacitor
+      'capacitor://localhost',     // iOS Capacitor
+      'ionic://localhost',         // Ionic apps
+      'http://localhost:3000'     // React dev server
     ];
 
     const allowed = new Set([...fromEnv, ...defaults]);
@@ -44,15 +50,23 @@ app.use(cors({
     // In development, allow any localhost/127.0.0.1 with any port
     const isDev = (process.env.NODE_ENV || 'development') !== 'production';
     const localhostRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+    
+    // Mobile app specific patterns
+    const mobileRegex = /^(capacitor|ionic):\/\/localhost$/i;
 
-    if (allowed.has(origin) || (isDev && localhostRegex.test(origin))) {
+    if (allowed.has(origin) || 
+        (isDev && localhostRegex.test(origin)) ||
+        mobileRegex.test(origin)) {
       return callback(null, true);
     }
 
     return callback(new Error('Not allowed by CORS'));
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
